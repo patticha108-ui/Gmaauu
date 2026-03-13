@@ -1,1 +1,36 @@
-# Gmaauu
+
+-- วางสคริปต์นี้ใน StarterPlayerScripts หรือ StarterGui
+
+-- สร้าง GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "CoordinateDisplay"
+ScreenGui.ResetOnSpawn = false
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 200, 0, 50)
+Frame.Position = UDim2.new(0, 20, 0, 20)
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BackgroundTransparency = 0.4
+Frame.Parent = ScreenGui
+
+local TextLabel = Instance.new("TextLabel")
+TextLabel.Size = UDim2.new(1, 0, 1, 0)
+TextLabel.BackgroundTransparency = 1
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.Font = Enum.Font.SourceSansBold
+TextLabel.TextScaled = true
+TextLabel.Text = "ตำแหน่ง: (0, 0, 0)"
+TextLabel.Parent = Frame
+
+-- ใส่ GUI ลงใน PlayerGui
+local player = game.Players.LocalPlayer
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- อัปเดตพิกัดทุก ๆ 0.1 วินาที
+while true do
+	task.wait(0.1)
+	if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		local pos = player.Character.HumanoidRootPart.Position
+		TextLabel.Text = string.format("ตำแหน่ง: (%.1f, %.1f, %.1f)", pos.X, pos.Y, pos.Z)
+	end
+end
